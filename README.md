@@ -7,7 +7,7 @@ C error handling that doesn't make you want to quit. Typed results, rich error c
 ## Installation
 
 ### Requirements
-- GCC 10+ or Clang (uses `__auto_type`, `__attribute__((cleanup))`, statement expressions)
+- GCC 4.9+ or any modern Clang (uses __auto_type, __attribute__((cleanup)), statement expressions — MSVC is not supported)
 - CMake 3.15+
 
 ### Building
