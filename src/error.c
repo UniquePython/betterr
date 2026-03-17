@@ -35,3 +35,20 @@ Error *error_new(const Domain *domain, uint32_t code, Location loc, const char *
 
     return err;
 }
+
+void error_free(Error **err)
+{
+    if (!err || !*err)
+        return;
+
+    Error *current = *err;
+    while (current)
+    {
+        Error *next = current->cause;
+        free(current->message);
+        free(current);
+        current = next;
+    }
+
+    *err = NULL;
+}
