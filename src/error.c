@@ -99,3 +99,38 @@ void error_free(Error **err)
 
     *err = NULL;
 }
+
+void error_print(const Error *err)
+{
+    if (!err)
+        return;
+
+    const Error *current = err;
+    int depth = 0;
+
+    while (current)
+    {
+        for (int i = 0; i < depth; i++)
+            fprintf(stderr, "  ");
+
+        if (current->message)
+            fprintf(stderr, "%s:%u in %s() (%s:%d): %s\n",
+                    current->domain ? current->domain->name : "unknown",
+                    current->code,
+                    current->location.function,
+                    current->location.file,
+                    current->location.line,
+                    current->message);
+        else
+            fprintf(stderr, "propagated through %s() (%s:%d)\n",
+                    current->location.function,
+                    current->location.file,
+                    current->location.line);
+
+        if (current->cause)
+            fprintf(stderr, "%*scaused by: \n", depth * 2, "");
+
+        current = current->cause;
+        depth++;
+    }
+}
