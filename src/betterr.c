@@ -8,7 +8,7 @@ Betterr *betterr_new(const Domain *domain, uint32_t code, Location loc, const ch
 {
     Betterr *err = malloc(sizeof(Betterr));
     if (!err)
-        return NULL;
+        abort();
 
     va_list args, args_copy;
     va_start(args, fmt);
@@ -19,11 +19,7 @@ Betterr *betterr_new(const Domain *domain, uint32_t code, Location loc, const ch
 
     err->message = malloc(len + 1);
     if (!err->message)
-    {
-        va_end(args_copy);
-        free(err);
-        return NULL;
-    }
+        abort();
 
     vsnprintf(err->message, len + 1, fmt, args_copy);
     va_end(args_copy);
@@ -40,7 +36,7 @@ Betterr *betterr_propagate(Betterr *cause, Location loc)
 {
     Betterr *err = malloc(sizeof(Betterr));
     if (!err)
-        return NULL;
+        abort();
 
     err->domain = NULL;
     err->code = 0;
@@ -55,7 +51,7 @@ Betterr *betterr_from(Betterr *cause, const Domain *domain, uint32_t code, Locat
 {
     Betterr *err = malloc(sizeof(Betterr));
     if (!err)
-        return NULL;
+        abort();
 
     va_list args, args_copy;
     va_start(args, fmt);
@@ -66,11 +62,7 @@ Betterr *betterr_from(Betterr *cause, const Domain *domain, uint32_t code, Locat
 
     err->message = malloc(len + 1);
     if (!err->message)
-    {
-        va_end(args_copy);
-        free(err);
-        return NULL;
-    }
+        abort();
 
     vsnprintf(err->message, len + 1, fmt, args_copy);
     va_end(args_copy);
