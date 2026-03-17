@@ -3,17 +3,19 @@
 
 #include "betterr.h"
 
+#include <stddef.h>
+
 #define DEFINE_RESULT(T, Name)                      \
     typedef struct                                  \
     {                                               \
         T value;                                    \
         Betterr *error;                             \
     } Name;                                         \
-    static inline Name Name##_ok(T val)             \
+    static inline Name Name##_OK(T val)             \
     {                                               \
         return (Name){.value = val, .error = NULL}; \
     }                                               \
-    static inline Name Name##_err(Betterr *err)     \
+    static inline Name Name##_ERR(Betterr *err)     \
     {                                               \
         return (Name){.error = err};                \
     }
@@ -22,7 +24,7 @@
     ({                                                    \
         __auto_type _r = (expr);                          \
         if (_r.error)                                     \
-            return ReturnType##_err(PROPAGATE(_r.error)); \
+            return ReturnType##_ERR(PROPAGATE(_r.error)); \
         _r.value;                                         \
     })
 
