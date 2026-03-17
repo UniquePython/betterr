@@ -22,3 +22,9 @@ jobs:
 
       - name: Test
         run: ./build/test_betterr
+
+      - name: Build with sanitizers
+        run: cmake -B build_san -DCMAKE_C_FLAGS="-fsanitize=address,undefined -g" && cmake --build build_san
+
+      - name: Test with sanitizers
+        run: ./build_san/test_betterr
