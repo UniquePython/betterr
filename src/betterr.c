@@ -120,7 +120,7 @@ void betterr_print(const Betterr *err)
                     current->location.line);
 
         if (current->cause)
-            fprintf(stderr, "%*scaused by: \n", depth * 2, "");
+            fprintf(stderr, "%*scaused by:\n", depth * 2, "");
 
         current = current->cause;
         depth++;
