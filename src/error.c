@@ -36,6 +36,21 @@ Error *error_new(const Domain *domain, uint32_t code, Location loc, const char *
     return err;
 }
 
+Error *error_propagate(Error *cause, Location loc)
+{
+    Error *err = malloc(sizeof(Error));
+    if (!err)
+        return NULL;
+
+    err->domain = NULL;
+    err->code = 0;
+    err->message = NULL;
+    err->location = loc;
+    err->cause = cause;
+
+    return err;
+}
+
 void error_free(Error **err)
 {
     if (!err || !*err)
