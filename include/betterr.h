@@ -1,5 +1,5 @@
-#ifndef BETTERR_ERROR_H
-#define BETTERR_ERROR_H
+#ifndef BETTERR_H
+#define BETTERR_H
 
 #include <stdint.h>
 
