@@ -11,7 +11,10 @@ target_include_directories(betterr
     PUBLIC include
 )
 
+target_compile_options(betterr PRIVATE -Wall -Wextra)
+
 # The tests
 add_executable(test_betterr tests/test_betterr.c)
 
 target_link_libraries(test_betterr PRIVATE betterr)
+target_compile_options(test_betterr PRIVATE -Wall -Wextra)
