@@ -1,12 +1,12 @@
-#include "betterr/error.h"
+#include "betterr.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 
-Error *error_new(const Domain *domain, uint32_t code, Location loc, const char *fmt, ...)
+Betterr *betterr_new(const Domain *domain, uint32_t code, Location loc, const char *fmt, ...)
 {
-    Error *err = malloc(sizeof(Error));
+    Betterr *err = malloc(sizeof(Betterr));
     if (!err)
         return NULL;
 
@@ -36,9 +36,9 @@ Error *error_new(const Domain *domain, uint32_t code, Location loc, const char *
     return err;
 }
 
-Error *error_propagate(Error *cause, Location loc)
+Betterr *betterr_propagate(Betterr *cause, Location loc)
 {
-    Error *err = malloc(sizeof(Error));
+    Betterr *err = malloc(sizeof(Betterr));
     if (!err)
         return NULL;
 
@@ -51,9 +51,9 @@ Error *error_propagate(Error *cause, Location loc)
     return err;
 }
 
-Error *error_from(Error *cause, const Domain *domain, uint32_t code, Location loc, const char *fmt, ...)
+Betterr *betterr_from(Betterr *cause, const Domain *domain, uint32_t code, Location loc, const char *fmt, ...)
 {
-    Error *err = malloc(sizeof(Error));
+    Betterr *err = malloc(sizeof(Betterr));
     if (!err)
         return NULL;
 
@@ -83,15 +83,15 @@ Error *error_from(Error *cause, const Domain *domain, uint32_t code, Location lo
     return err;
 }
 
-void error_free(Error **err)
+void betterr_free(Betterr **err)
 {
     if (!err || !*err)
         return;
 
-    Error *current = *err;
+    Betterr *current = *err;
     while (current)
     {
-        Error *next = current->cause;
+        Betterr *next = current->cause;
         free(current->message);
         free(current);
         current = next;
@@ -100,12 +100,12 @@ void error_free(Error **err)
     *err = NULL;
 }
 
-void error_print(const Error *err)
+void betterr_print(const Betterr *err)
 {
     if (!err)
         return;
 
-    const Error *current = err;
+    const Betterr *current = err;
     int depth = 0;
 
     while (current)
